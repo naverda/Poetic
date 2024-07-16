@@ -1,9 +1,6 @@
 [build]
   functions = "netlify/functions"
 
-  # 패키지 디렉토리 설정
-  publish = "Poetic/main.py"
-  
   # 빌드 명령 설정
   command = "python main.py"
 
