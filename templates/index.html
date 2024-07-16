@@ -15,6 +15,34 @@
     <h2>Result:</h2>
     <p>{{ poetry|safe }}</p>
   </div>
+  <script>
+        document.getElementById('poetryForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const textInput = document.getElementById('textInput').value;
+            const apiKey = 'AIzaSyCaJrDBIXDRQlQismh6jeZ5vGlRNyzSaGQ';
+            const modelName = 'gemini-pro';
+            
+            const prompt = `Please change this into a poetic expression: ${textInput}. Please print it out as a poetic expression of the same language as the language in ${textInput}. If ${textInput} is one sentence, print about one sentence. Don't try to write down the title of the poem, If ${textInput} is Korean, print it out in Korean, If ${textInput} is English, it must be printed in English.`;
+
+            fetch(`https://api.generativeai.googleapis.com/v1/models/${modelName}:generateContent`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${apiKey}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ prompt: prompt })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('poetryResult').innerText = data.choices[0].text;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('poetryResult').innerText = 'An error occurred while generating the poetry.';
+            });
+        });
+    </script>
 </body>
 <foot>
 </foot>
